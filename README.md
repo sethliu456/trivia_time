@@ -1,6 +1,2 @@
-# trivia_time
-Trivia game built using React, and deployed on Github Actions
-
-
-# dev
-npm run dev
+# About this App
+Fun and interactive trivia game built using React (typescript), and deployed on Github Actions
