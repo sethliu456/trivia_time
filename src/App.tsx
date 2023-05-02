@@ -3,12 +3,28 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+import LandingPage from './components/LandingPage'
+
 function App() {
   const [count, setCount] = useState(0)
+  const [questionsAndAnswers, setQuestionsAndAnswers] = useState([])
+
+  const [userState, setUserState] = useState("landingPage");
+  const userStateOptions = ['landingPage', 'gamePage', 'resultsPage']
+
+  let pageToRender;
+
+  if (userState === 'landingPage') {
+    pageToRender = <LandingPage />
+  } else if (userState === "gamePage") {
+    pageToRender = <GamePage />
+  } else if (userState === "resultsPage") {
+    pageToRender = <ResultsPage />
+  }
 
   return (
-    <>
-      <div>
+    <div>
+      {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -27,8 +43,9 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
-      </p>
-    </>
+      </p> */}
+      {pageToRender}
+    </div>
   )
 }
 
