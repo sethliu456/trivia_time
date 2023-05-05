@@ -7,19 +7,14 @@ import QuestionAndAnswer from './QuestionAndAnswer.tsx'
 const API_URL = 'https://opentdb.com/api.php'
 
 function LandingPage() {
-  // const [count, setCount] = useState(0)
-  // const [options, setOptions] = useState({})
   const [categoryData, setCategoryData] = useState([])
   const [questionsAndAnswers, setQuestionsAndAnswers] = useState([])
-  // const [currentScore, setCurrentScore] = useState(0)
   const currentScore = useRef(0)
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [gameOver, setGameOver] = useState(false)
-  const [amountOption, setAmountOption] = useState(10)
-  const [categoryOption, setCategoryOption] = useState("any")
 
   const [userSelectOptions, setUserSelectOptions] = useState({
-    amount: 2,
+    amount: 5,
     category: "any",
     difficulty: "medium",
   })
@@ -45,7 +40,7 @@ function LandingPage() {
   }
 
   const questionCountOptions = []
-  for (let i = settingOptions.questionCount.min; i < settingOptions.questionCount.max; i++) {
+  for (let i = settingOptions.questionCount.min; i <= settingOptions.questionCount.max; i++) {
     questionCountOptions.push(i)
   }
 
@@ -73,8 +68,8 @@ function LandingPage() {
     const fullURL = buildURlParams()
     console.log(fullURL)
 
-    // fetch(buildURlParams())
-    fetch('https://opentdb.com/api.php?amount=3')
+    fetch(buildURlParams())
+    // fetch('https://opentdb.com/api.php?amount=3')
       .then(response => response.json())
       .then(data => {
         setQuestionsAndAnswers(data.results)
@@ -92,11 +87,9 @@ function LandingPage() {
 
 
   function handleAmountChange(event) {
-    // setAmountOption(event.target.value)
     setUserSelectOptions({... userSelectOptions, amount: event.target.value})
   }
   function handleCategoryChange(event) {
-    // setCategoryData(event.target.value)
     setUserSelectOptions({... userSelectOptions, category: event.target.value})
   }
 
