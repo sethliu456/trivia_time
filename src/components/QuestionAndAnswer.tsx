@@ -33,7 +33,7 @@ function QuestionAndAnswer ({questionItem, currentQuestion, setCurrentQuestion, 
   return (
     <div>
       <h2>{questionItem.question}</h2>
-      {allAnswers.map(answer => <div onClick={handleUserAnswer} key={uuidv4()} data-value={answer}>{answer}</div>)}
+      {allAnswers.map(answer => <div onClick={handleUserAnswer} key={uuidv4()} style={{border: 'solid'}} data-value={answer}>{answer}</div>)}
       {userAnswered ? <div onClick={updateCurrentQuestion}>Next Question</div> : ""}
     </div>
   );

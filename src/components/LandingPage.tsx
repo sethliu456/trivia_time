@@ -15,6 +15,8 @@ function LandingPage() {
   const [currentScore, setCurrentScore] = useState(0)
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [gameOver, setGameOver] = useState(false)
+  const [amountOption, setAmountOption] = useState(10)
+  const [categoryOption, setCategoryOption] = useState("any")
 
 
   useEffect(() => {
@@ -41,9 +43,6 @@ function LandingPage() {
     },
     difficulty: ["easy", "medium", "hard"],
   }
-
-  const [amountOption, setAmountOption] = useState(10)
-  const [categoryOption, setCategoryOption] = useState("any")
 
   const questionCountOptions = []
   for (let i = settingOptions.questionCount.min; i < settingOptions.questionCount.max; i++) {
@@ -97,6 +96,13 @@ function LandingPage() {
   }
   function handleCategoryChange(event) {
     setCategoryData(event.target.value)
+  }
+
+  function resetGame() {
+    setQuestionsAndAnswers([])
+    setCurrentScore(0)
+    setCurrentQuestion(0)
+    setGameOver(false)
   }
 
   return (
