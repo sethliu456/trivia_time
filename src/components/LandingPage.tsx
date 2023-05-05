@@ -3,13 +3,12 @@ import { v4 as uuidv4 } from 'uuid'
 import React from 'react'
 import '../styles/styles.scss'
 import QuestionAndAnswer from './QuestionAndAnswer.tsx'
-// import  TEST  from './TEST.tsx'
 
 const API_URL = 'https://opentdb.com/api.php'
 
 function LandingPage() {
-  const [count, setCount] = useState(0)
-  const [options, setOptions] = useState({})
+  // const [count, setCount] = useState(0)
+  // const [options, setOptions] = useState({})
   const [categoryData, setCategoryData] = useState([])
   const [questionsAndAnswers, setQuestionsAndAnswers] = useState([])
   const [currentScore, setCurrentScore] = useState(0)
@@ -18,18 +17,18 @@ function LandingPage() {
   const [amountOption, setAmountOption] = useState(10)
   const [categoryOption, setCategoryOption] = useState("any")
 
+  const [userSelectOptions, setUserSelectOptions] = useState({
+    amount: 10,
+    category: "any",
+    difficulty: "medium",
+  })
+
 
   useEffect(() => {
     if (questionsAndAnswers.length > 0 && currentQuestion >= questionsAndAnswers.length) {
       setGameOver(true)
     }
   }, [currentQuestion]);
-
-  const [userSelectOptions, setuserSelectOptions] = useState({
-    amount: 10,
-    category: "any",
-    difficulty: "medium",
-  })
 
   const settingOptions = {
     questionCount: {
@@ -77,7 +76,6 @@ function LandingPage() {
     fetch('https://opentdb.com/api.php?amount=3')
       .then(response => response.json())
       .then(data => {
-        // console.log(data)
         setQuestionsAndAnswers(data.results)
       })
       .catch(error => {
@@ -92,10 +90,12 @@ function LandingPage() {
 
 
   function handleAmountChange(event) {
-    setAmountOption(event.target.value)
+    // setAmountOption(event.target.value)
+    setUserSelectOptions({... userSelectOptions, amount: event.target.value})
   }
   function handleCategoryChange(event) {
-    setCategoryData(event.target.value)
+    // setCategoryData(event.target.value)
+    setUserSelectOptions({... userSelectOptions, category: event.target.value})
   }
 
   function resetGame() {
@@ -110,14 +110,14 @@ function LandingPage() {
       {!gameOver ? <div><h1>Trivia Time!</h1>
         <div>
           <label>How many questions
-            <select value={amountOption} onChange={handleAmountChange}>
+            <select value={userSelectOptions.amount} onChange={handleAmountChange}>
               {questionCountOptions.map(count => <option value={count} key={uuidv4()}> {count}</option>)}
             </select>
           </label>
         </div>
         <div>
           <label>Categories
-            <select value={categoryOption} onChange={handleCategoryChange}>
+            <select value={userSelectOptions.category} onChange={handleCategoryChange}>
               {categoryData.map(category => <option value={category.id} key={uuidv4()}> {category.name}</option>)}
             </select>
           </label>
@@ -133,7 +133,7 @@ function LandingPage() {
             : ""}
         </div> </div> : ""}
 
-      {gameOver ? <div><div>Game Over</div><div>Your score is {currentScore} out of {questionsAndAnswers.length}</div></div> : ""}
+      {gameOver ? <div><div>Game Over</div><div>Your score is {currentScore} out of {questionsAndAnswers.length}</div> <div onClick={resetGame}>Play again</div></div> : ""}
 
     </div>
   )
