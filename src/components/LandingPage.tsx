@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import React from 'react'
 import '../styles/styles.scss'
@@ -11,14 +11,15 @@ function LandingPage() {
   // const [options, setOptions] = useState({})
   const [categoryData, setCategoryData] = useState([])
   const [questionsAndAnswers, setQuestionsAndAnswers] = useState([])
-  const [currentScore, setCurrentScore] = useState(0)
+  // const [currentScore, setCurrentScore] = useState(0)
+  const currentScore = useRef(0)
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [gameOver, setGameOver] = useState(false)
   const [amountOption, setAmountOption] = useState(10)
   const [categoryOption, setCategoryOption] = useState("any")
 
   const [userSelectOptions, setUserSelectOptions] = useState({
-    amount: 10,
+    amount: 2,
     category: "any",
     difficulty: "medium",
   })
@@ -69,14 +70,15 @@ function LandingPage() {
   }
 
   function fetchQuestions() {
-    const urlParams = buildURlParams()
-    // console.log(urlParams)
+    const fullURL = buildURlParams()
+    console.log(fullURL)
 
     // fetch(buildURlParams())
     fetch('https://opentdb.com/api.php?amount=3')
       .then(response => response.json())
       .then(data => {
         setQuestionsAndAnswers(data.results)
+        console.log(data.results)
       })
       .catch(error => {
         // Handle errors
@@ -100,7 +102,7 @@ function LandingPage() {
 
   function resetGame() {
     setQuestionsAndAnswers([])
-    setCurrentScore(0)
+    currentScore.current = 0
     setCurrentQuestion(0)
     setGameOver(false)
   }
@@ -129,11 +131,11 @@ function LandingPage() {
           return <QuestionAndAnswer key={uuidv4()} questionItem={item} currentScore={currentScore} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} setCurrentScore={setCurrentScore}/>
         }) : ""} */}
           {questionsAndAnswers.length > 1 && currentQuestion < questionsAndAnswers.length?
-            <QuestionAndAnswer key={uuidv4()} questionItem={questionsAndAnswers[currentQuestion]} currentScore={currentScore} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} setCurrentScore={setCurrentScore} setGameOver={setGameOver} />
+            <QuestionAndAnswer key={uuidv4()} questionItem={questionsAndAnswers[currentQuestion]} currentScore={currentScore} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}  setGameOver={setGameOver} />
             : ""}
         </div> </div> : ""}
 
-      {gameOver ? <div><div>Game Over</div><div>Your score is {currentScore} out of {questionsAndAnswers.length}</div> <div onClick={resetGame}>Play again</div></div> : ""}
+      {gameOver ? <div><div>Game Over</div><div>Your score is {currentScore.current} out of {questionsAndAnswers.length}</div> <div onClick={resetGame}>Play again</div></div> : ""}
 
     </div>
   )

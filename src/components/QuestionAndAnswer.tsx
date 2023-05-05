@@ -1,10 +1,12 @@
 import React from "react";
-import {useState} from 'react'
+import {useState, useRef} from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 
-function QuestionAndAnswer ({questionItem, currentQuestion, setCurrentQuestion, currentScore, setCurrentScore}) {
+function QuestionAndAnswer ({questionItem, currentQuestion, setCurrentQuestion, currentScore}) {
   const [userAnswered, setUserAnswered] = useState(false)
+
+  console.log("TEST render")
 
   type IndividualQuestionAndAnswer = {
     category: string,
@@ -17,13 +19,13 @@ function QuestionAndAnswer ({questionItem, currentQuestion, setCurrentQuestion, 
 
   const allAnswers = [... questionItem.incorrect_answers, questionItem.correct_answer]
 
-  function handleUserAnswer (event) {
-    // console.log(event.target.getAttribute('data-value'))
-    const userAnswer = event.target.getAttribute('data-value')
-    if (userAnswer === questionItem.correct_answer && !userAnswered) {
-      setCurrentScore(currentScore + 1)
+  function handleUserClick (event) {
+    const userAnswer = event.target.getAttribute('data-value');
+    setUserAnswered(true);
+
+    if (userAnswer === questionItem.correct_answer) {
+      currentScore.current ++;
     }
-    setUserAnswered(true)
   }
 
   function updateCurrentQuestion () {
@@ -33,7 +35,7 @@ function QuestionAndAnswer ({questionItem, currentQuestion, setCurrentQuestion, 
   return (
     <div>
       <h2>{questionItem.question}</h2>
-      {allAnswers.map(answer => <div onClick={handleUserAnswer} key={uuidv4()} style={{border: 'solid'}} data-value={answer}>{answer}</div>)}
+      {allAnswers.map(answer => <div onClick={userAnswered? null : handleUserClick} key={uuidv4()} style={{border: 'solid'}} data-value={answer}>{answer}</div>)}
       {userAnswered ? <div onClick={updateCurrentQuestion}>Next Question</div> : ""}
     </div>
   );
