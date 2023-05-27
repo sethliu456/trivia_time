@@ -1,13 +1,12 @@
 // @ts-nocheck
 import React from "react";
-import {useState, useRef} from 'react'
+import { useState, useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 
-function QuestionAndAnswer ({questionItem, currentQuestion, setCurrentQuestion, currentScore}) {
+function QuestionAndAnswer({ questionItem, currentQuestion, setCurrentQuestion, currentScore }) {
   const [userAnswered, setUserAnswered] = useState(false)
-
-  console.log("TEST render")
+  const [userSelectedAnswer, setUserSelectedAnswer] = useState(null)
 
   type IndividualQuestionAndAnswer = {
     category: string,
@@ -18,25 +17,29 @@ function QuestionAndAnswer ({questionItem, currentQuestion, setCurrentQuestion, 
     type: string
   }
 
-  const allAnswers = [... questionItem.incorrect_answers, questionItem.correct_answer]
+  const allAnswers = [...questionItem.incorrect_answers, questionItem.correct_answer]
 
-  function handleUserClick (event) {
+  function handleUserClick(event) {
     const userAnswer = event.target.getAttribute('data-value');
     setUserAnswered(true);
+    setUserSelectedAnswer(userAnswer)
 
     if (userAnswer === questionItem.correct_answer) {
-      currentScore.current ++;
+      currentScore.current++;
     }
+
+
   }
 
-  function updateCurrentQuestion () {
+  function updateCurrentQuestion() {
     setCurrentQuestion(currentQuestion + 1)
   }
 
   return (
     <div>
       <h2>{questionItem.question}</h2>
-      {allAnswers.map(answer => <div onClick={userAnswered? null : handleUserClick} key={uuidv4()} style={{border: 'solid'}} data-value={answer}>{answer}</div>)}
+      {allAnswers.map(answer => <div onClick={userAnswered ? null : handleUserClick} key={uuidv4()} className={`${userAnswered && answer === questionItem.correct_answer ? 'correct' : ''} ${userAnswered && userSelectedAnswer === answer && answer !== questionItem.correct_answer ? 'incorrect' : ''}`}
+        style={{ border: 'solid' }} data-value={answer}>{answer}</div>)}
       {userAnswered ? <div onClick={updateCurrentQuestion}>Next Question</div> : ""}
     </div>
   );

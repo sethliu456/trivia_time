@@ -101,7 +101,7 @@ function LandingPage() {
     currentScore.current = 0
     setCurrentQuestion(0)
     setGameOver(false)
-    setGameSetup(true)
+    setGameMenu(true)
   }
 
   return (

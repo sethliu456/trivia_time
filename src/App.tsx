@@ -7,6 +7,7 @@ import './App.css'
 import LandingPage from './components/LandingPage'
 // import GamePage from './components/LandingPage'
 // import LandingPage from './components/LandingPage'
+import './styles/styles.scss'
 
 function App() {
   const [count, setCount] = useState(0)
