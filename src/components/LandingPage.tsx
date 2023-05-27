@@ -13,6 +13,7 @@ function LandingPage() {
   const currentScore = useRef(0)
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [gameOver, setGameOver] = useState(false)
+  const [gameMenu, setGameMenu] = useState(true)
 
   const [userSelectOptions, setUserSelectOptions] = useState({
     amount: 5,
@@ -69,12 +70,13 @@ function LandingPage() {
     const fullURL = buildURlParams()
     console.log(fullURL)
 
-    fetch(buildURlParams())
-    // fetch('https://opentdb.com/api.php?amount=3')
+    // fetch(buildURlParams())
+    fetch('https://opentdb.com/api.php?amount=3')
       .then(response => response.json())
       .then(data => {
         setQuestionsAndAnswers(data.results)
         console.log(data.results)
+        setGameMenu(false)
       })
       .catch(error => {
         // Handle errors
@@ -87,11 +89,11 @@ function LandingPage() {
   }
 
 
-  function handleAmountChange(event) {
-    setUserSelectOptions({... userSelectOptions, amount: event.target.value})
+  function handleQuestionCountChange(event) {
+    setUserSelectOptions({ ...userSelectOptions, amount: event.target.value })
   }
   function handleCategoryChange(event) {
-    setUserSelectOptions({... userSelectOptions, category: event.target.value})
+    setUserSelectOptions({ ...userSelectOptions, category: event.target.value })
   }
 
   function resetGame() {
@@ -99,33 +101,38 @@ function LandingPage() {
     currentScore.current = 0
     setCurrentQuestion(0)
     setGameOver(false)
+    setGameSetup(true)
   }
 
   return (
     <div>
       {!gameOver ? <div><h1>Trivia Time!</h1>
-        <div>
-          <label>How many questions
-            <select value={userSelectOptions.amount} onChange={handleAmountChange}>
-              {questionCountOptions.map(count => <option value={count} key={uuidv4()}> {count}</option>)}
-            </select>
-          </label>
+        {gameMenu ? <div>
+          <div>
+            <label>How many questions
+              <select value={userSelectOptions.amount} onChange={handleQuestionCountChange}>
+                {questionCountOptions.map(count => <option value={count} key={uuidv4()}> {count}</option>)}
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>Categories
+              <select value={userSelectOptions.category} onChange={handleCategoryChange}>
+                {categoryData.map(category => <option value={category.id} key={uuidv4()}> {category.name}</option>)}
+              </select>
+            </label>
+          </div>
+          <button onClick={fetchQuestions}>Get questions</button>
         </div>
-        <div>
-          <label>Categories
-            <select value={userSelectOptions.category} onChange={handleCategoryChange}>
-              {categoryData.map(category => <option value={category.id} key={uuidv4()}> {category.name}</option>)}
-            </select>
-          </label>
-        </div>
-        <button onClick={fetchQuestions}>Get questions</button>
+        : ""}
+
 
         <div>
           {/* {questionsAndAnswers.length > 1 ? questionsAndAnswers.map(item => {
           return <QuestionAndAnswer key={uuidv4()} questionItem={item} currentScore={currentScore} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} setCurrentScore={setCurrentScore}/>
         }) : ""} */}
-          {questionsAndAnswers.length > 1 && currentQuestion < questionsAndAnswers.length?
-            <QuestionAndAnswer key={uuidv4()} questionItem={questionsAndAnswers[currentQuestion]} currentScore={currentScore} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}  setGameOver={setGameOver} />
+          {questionsAndAnswers.length > 1 && currentQuestion < questionsAndAnswers.length ?
+            <QuestionAndAnswer key={uuidv4()} questionItem={questionsAndAnswers[currentQuestion]} currentScore={currentScore} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} setGameOver={setGameOver} />
             : ""}
         </div> </div> : ""}
 
