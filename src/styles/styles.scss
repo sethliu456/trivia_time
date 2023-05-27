@@ -1,11 +1,28 @@
 .answer {
-border: solid;
+    border: solid;
+    margin: 0.5em auto;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+        background-color: #e9c46a;
+    }
 }
 
 .correct {
-background-color: green;
+    background-color: #80ed99;
 }
 
 .incorrect {
-background-color: red;
+    background-color: #e84a4a;
+}
+
+.next-button {
+    margin: 2em auto;
+    border: solid;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+    &:hover {
+        background-color: #e9c46a;
+    }
 }

@@ -4,21 +4,23 @@ import { useState, useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 
+type IndividualQuestionAndAnswer = {
+  category: string,
+  correct_answer: string,
+  difficulty: string,
+  incorrect_answers: string[],
+  question: string,
+  type: string
+}
+
 function QuestionAndAnswer({ questionItem, currentQuestion, setCurrentQuestion, currentScore }) {
   const [userAnswered, setUserAnswered] = useState(false)
   const [userSelectedAnswer, setUserSelectedAnswer] = useState(null)
   const [userAnsweredCorrect, setUserAnsweredCorrect] = useState(false)
 
-  type IndividualQuestionAndAnswer = {
-    category: string,
-    correct_answer: string,
-    difficulty: string,
-    incorrect_answers: string[],
-    question: string,
-    type: string
-  }
+  const allAnswersTest = [...questionItem.incorrect_answers, questionItem.correct_answer].sort(() => Math.random() - 0.5)
+  const [allAnswers, setAllAnswers] = useState(allAnswersTest)
 
-  const allAnswers = [...questionItem.incorrect_answers, questionItem.correct_answer]
 
   function handleUserClick(event) {
     const userAnswer = event.target.getAttribute('data-value');
@@ -37,11 +39,10 @@ function QuestionAndAnswer({ questionItem, currentQuestion, setCurrentQuestion, 
 
   return (
     <div>
-      <h2>{questionItem.question}</h2>
+      <h2>Question {currentQuestion + 1}. {questionItem.question}</h2>
       {userAnswered ? <div>{userAnsweredCorrect ? "Correct!" : "Incorrect!"}</div> : ""}
-      {allAnswers.map(answer => <div onClick={userAnswered ? null : handleUserClick} key={uuidv4()} className={`${userAnswered && answer === questionItem.correct_answer ? 'correct' : ''} ${userAnswered && userSelectedAnswer === answer && answer !== questionItem.correct_answer ? 'incorrect' : ''}`}
-        style={{ border: 'solid' }} data-value={answer}>{answer}</div>)}
-      {userAnswered ? <div onClick={updateCurrentQuestion}>Next Question</div> : ""}
+      {allAnswers.map(answer => <div onClick={userAnswered ? null : handleUserClick} key={uuidv4()} className={`answer ${userAnswered && answer === questionItem.correct_answer ? 'correct' : ''} ${userAnswered && userSelectedAnswer === answer && answer !== questionItem.correct_answer ? 'incorrect' : ''}`} data-value={answer}>{answer}</div>)}
+      {userAnswered ? <div onClick={updateCurrentQuestion} className="next-button">Next Question</div> : ""}
     </div>
   );
 }

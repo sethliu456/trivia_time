@@ -126,17 +126,13 @@ function LandingPage() {
         </div>
         : ""}
 
-
         <div>
-          {/* {questionsAndAnswers.length > 1 ? questionsAndAnswers.map(item => {
-          return <QuestionAndAnswer key={uuidv4()} questionItem={item} currentScore={currentScore} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} setCurrentScore={setCurrentScore}/>
-        }) : ""} */}
           {questionsAndAnswers.length > 1 && currentQuestion < questionsAndAnswers.length ?
             <QuestionAndAnswer key={uuidv4()} questionItem={questionsAndAnswers[currentQuestion]} currentScore={currentScore} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} setGameOver={setGameOver} />
             : ""}
         </div> </div> : ""}
 
-      {gameOver ? <div><div>Game Over</div><div>Your score is {currentScore.current} out of {questionsAndAnswers.length}</div> <div onClick={resetGame}>Play again</div></div> : ""}
+      {gameOver ? <div><div>Game Over</div><div>Your score is {currentScore.current} out of {questionsAndAnswers.length}</div> <div onClick={resetGame} className="next-button">Play again</div></div> : ""}
 
     </div>
   )
