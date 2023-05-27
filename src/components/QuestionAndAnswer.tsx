@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 function QuestionAndAnswer({ questionItem, currentQuestion, setCurrentQuestion, currentScore }) {
   const [userAnswered, setUserAnswered] = useState(false)
   const [userSelectedAnswer, setUserSelectedAnswer] = useState(null)
+  const [userAnsweredCorrect, setUserAnsweredCorrect] = useState(false)
 
   type IndividualQuestionAndAnswer = {
     category: string,
@@ -26,9 +27,8 @@ function QuestionAndAnswer({ questionItem, currentQuestion, setCurrentQuestion, 
 
     if (userAnswer === questionItem.correct_answer) {
       currentScore.current++;
+      setUserAnsweredCorrect(true)
     }
-
-
   }
 
   function updateCurrentQuestion() {
@@ -38,6 +38,7 @@ function QuestionAndAnswer({ questionItem, currentQuestion, setCurrentQuestion, 
   return (
     <div>
       <h2>{questionItem.question}</h2>
+      {userAnswered ? <div>{userAnsweredCorrect ? "Correct!" : "Incorrect!"}</div> : ""}
       {allAnswers.map(answer => <div onClick={userAnswered ? null : handleUserClick} key={uuidv4()} className={`${userAnswered && answer === questionItem.correct_answer ? 'correct' : ''} ${userAnswered && userSelectedAnswer === answer && answer !== questionItem.correct_answer ? 'incorrect' : ''}`}
         style={{ border: 'solid' }} data-value={answer}>{answer}</div>)}
       {userAnswered ? <div onClick={updateCurrentQuestion}>Next Question</div> : ""}
