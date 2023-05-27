@@ -14,6 +14,3 @@
 //       });
 //   }
 
-
-const getDaysInAMonth = (month, year) => {
-    
