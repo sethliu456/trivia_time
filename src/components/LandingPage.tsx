@@ -17,7 +17,6 @@ function LandingPage() {
 
   const [userSelectOptions, setUserSelectOptions] = useState({
     amount: 5,
-    category: "any",
     difficulty: "medium",
   })
 
@@ -70,8 +69,8 @@ function LandingPage() {
     const fullURL = buildURlParams()
     console.log(fullURL)
 
-    // fetch(buildURlParams())
-    fetch('https://opentdb.com/api.php?amount=3')
+    // fetch('https://opentdb.com/api.php?amount=3')
+    fetch(fullURL)
       .then(response => response.json())
       .then(data => {
         setQuestionsAndAnswers(data.results)
@@ -94,6 +93,9 @@ function LandingPage() {
   }
   function handleCategoryChange(event) {
     setUserSelectOptions({ ...userSelectOptions, category: event.target.value })
+  }
+  function handleDifficultyChange(event) {
+    setUserSelectOptions({ ...userSelectOptions, difficulty: event.target.value })
   }
 
   function resetGame() {
@@ -119,6 +121,13 @@ function LandingPage() {
             <label>Categories
               <select value={userSelectOptions.category} onChange={handleCategoryChange}>
                 {categoryData.map(category => <option value={category.id} key={uuidv4()}> {category.name}</option>)}
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>Difficulty
+              <select value={userSelectOptions.difficulty} onChange={handleDifficultyChange}>
+                {settingOptions.difficulty.map(difficulty => <option value={difficulty} key={uuidv4()}> {difficulty}</option>)}
               </select>
             </label>
           </div>
