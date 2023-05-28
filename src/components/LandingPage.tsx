@@ -78,7 +78,6 @@ function LandingPage() {
         setGameMenu(false)
       })
       .catch(error => {
-        // Handle errors
         console.error(error);
       });
   }
@@ -107,33 +106,38 @@ function LandingPage() {
   }
 
   return (
-    <div>
+    <div className="game-container">
       {!gameOver ? <div><h1>Trivia Time!</h1>
         {gameMenu ? <div>
           <div>
-            <label>How many questions
-              <select value={userSelectOptions.amount} onChange={handleQuestionCountChange}>
-                {questionCountOptions.map(count => <option value={count} key={uuidv4()}> {count}</option>)}
-              </select>
-            </label>
+            Get ready to test your knowledge and prove your smarts with Trivia Time! Show off your chops as you tackle mind-boggling questions from various categories. Choose the correct answers, earn points, and aim for the top score. Can you become the ultimate Trivia Time champion? Let the challenge begin!
           </div>
-          <div>
-            <label>Categories
+          <div className="option-container">
+            <div className="option-single">
+              <label>Category
+              </label>
               <select value={userSelectOptions.category} onChange={handleCategoryChange}>
                 {categoryData.map(category => <option value={category.id} key={uuidv4()}> {category.name}</option>)}
               </select>
-            </label>
-          </div>
-          <div>
-            <label>Difficulty
+            </div>
+            <div className="option-single">
+              <label>Difficulty
+              </label>
               <select value={userSelectOptions.difficulty} onChange={handleDifficultyChange}>
                 {settingOptions.difficulty.map(difficulty => <option value={difficulty} key={uuidv4()}> {difficulty}</option>)}
               </select>
-            </label>
+            </div>
+            <div className="option-single">
+              <label>Question Count
+              </label>
+              <select value={userSelectOptions.amount} onChange={handleQuestionCountChange}>
+                {questionCountOptions.map(count => <option value={count} key={uuidv4()}> {count}</option>)}
+              </select>
+            </div>
           </div>
-          <button onClick={fetchQuestions}>Get questions</button>
+          <button onClick={fetchQuestions}>START!</button>
         </div>
-        : ""}
+          : ""}
 
         <div>
           {questionsAndAnswers.length > 1 && currentQuestion < questionsAndAnswers.length ?

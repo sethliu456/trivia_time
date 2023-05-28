@@ -16,6 +16,11 @@
     background-color: #e84a4a;
 }
 
+
+.question-and-answer {
+    width: 500px;
+}
+
 .next-button {
     margin: 2em auto;
     border: solid;
@@ -24,5 +29,23 @@
     width: 150px;
     &:hover {
         background-color: #e9c46a;
+    }
+}
+
+
+.game-container {
+    max-width: 800px;
+
+    .option-container {
+        font-size: 1.2rem;
+        margin: 2rem auto;
+    }
+
+    .option-single {
+        margin: 0 auto;
+
+        & * {
+            margin: 0 4px 0 4px;
+        }
     }
 }
