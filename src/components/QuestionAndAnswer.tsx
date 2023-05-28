@@ -40,7 +40,7 @@ function QuestionAndAnswer({ questionItem, currentQuestion, setCurrentQuestion, 
   return (
     <div className="question-and-answer">
       <h2>Question {currentQuestion + 1}</h2>
-      <h3>{questionItem.question}</h3>
+      <h3 dangerouslySetInnerHTML={{ __html: questionItem.question }} />
       {userAnswered ? <div>{userAnsweredCorrect ? <div style={{fontSize: '2em', color:'#80ed99', fontWeightL: 'bold'}}>Correct!</div>: <div style={{fontSize: '2em', color:'#e84a4a', fontWeightL: 'bold'}}>Incorrect!</div>}</div> : ""}
       {allAnswers.map(answer => <div onClick={userAnswered ? null : handleUserClick} key={uuidv4()} className={`answer ${userAnswered && answer === questionItem.correct_answer ? 'correct' : ''} ${userAnswered && userSelectedAnswer === answer && answer !== questionItem.correct_answer ? 'incorrect' : ''}`} data-value={answer}>{answer}</div>)}
       {userAnswered ? <div onClick={updateCurrentQuestion} className="next-button">Next Question</div> : ""}
